@@ -1,0 +1,55 @@
+import numpy as np
+import random
+
+def encriptado(texto):
+    
+    x = 2
+    relleno = ("_")
+    mensaje = list(texto)
+    mensaje_unicode = []
+    
+    while len(mensaje)!= x**2:
+      if len(mensaje) < x**2:
+        mensaje.append(relleno)
+      else:
+        x += 1
+    
+    clave = np.arange(len(mensaje))
+    np.random.shuffle(clave)
+    
+    mensaje_array = np.array(mensaje)
+    mensaje_desordenado = mensaje_array[clave]
+    
+    for letra in mensaje_desordenado:
+      codigo_unicode = ord(letra)
+      mensaje_unicode.append(codigo_unicode)
+    
+    tamaño_matriz = int(len(mensaje)**(1/2))
+    
+    matriz = np.array(mensaje_unicode)
+    array_final = matriz.reshape((tamaño_matriz,tamaño_matriz))
+
+    return array_final, clave
+
+
+def desencriptado(array_encriptado, clave):
+    
+    lista_desencriptada = []
+    resultado = list(np.arange(len(clave)))
+    
+    array_matriz = array_encriptado.reshape((1,len(clave)))
+    lista_desencriptado = list(array_matriz[0])
+    
+    for numero in lista_desencriptado:
+      caracter = chr(numero)
+      lista_desencriptada.append(caracter)
+    
+    for indice, letra in enumerate(lista_desencriptada):
+      resultado[list(clave)[indice]] = letra
+    
+    resultado_array = np.array(resultado)
+    desencriptado_sin_relleno = resultado_array[resultado_array != "_"]
+    
+    texto = ''.join(desencriptado_sin_relleno)
+    
+    return texto
