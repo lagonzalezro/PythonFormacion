@@ -1,0 +1,47 @@
+import pandas as pd
+
+pensum = [{'0123': {'nombre': 'intro a la ing', 'créditos': 2},'4567': {'nombre': 'inglés', 'créditos': 1}},{}, {}]
+serie = pd.Series(pensum)
+
+def es_semestre_valido(p, s):
+    
+    if s <= len(serie) and s != 0:
+        validacion_semestre = True
+      
+    else:
+        validacion_semestre = False
+    
+    return validacion_semestre
+    
+def es_semestre_vacio(p, s):
+     
+    if es_semestre_valido(p,s):
+        semestre = serie[s-1]
+        es_vacio = not bool(semestre)
+    
+    return es_vacio
+
+def es_materia_valida(p, s, m):
+    
+    materia_valida = False
+    
+    if es_semestre_vacio(p, s) is False:
+        materias_internas = serie[(s-1)]
+        materia_valida = ((m) in materias_internas)
+    
+    return materia_valida
+
+def modificar_materia(pensum, semestre, materia, nombre, creditos):
+
+    if es_materia_valida(pensum,semestre,materia) is True:
+        materias_actuales = serie[(semestre-1)]
+        materia_modificar = materias_actuales[materia]
+        materia_modificar['nombre'] = nombre
+        materia_modificar['créditos'] = creditos
+
+def eliminar_materia(pensum, semestre, materia):
+
+    if es_materia_valida(pensum,semestre,materia) is True:
+        materia_actual = serie[(semestre-1)]
+        del materia_actual[materia]
+
