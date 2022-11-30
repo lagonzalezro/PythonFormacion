@@ -1,0 +1,50 @@
+from string import ascii_uppercase as alfabeto
+
+# NO MODIFICAR LOS NOMBRES, PARÁMETROS O RETORNOS DE LAS FUNCIONES
+def encriptador(mensaje):
+    # ACÁ INICIA LA FUNCIÓN ENCRIPTADOR
+    # (En este espacio debes poner el código necesario para encriptar)
+    
+    y = 0
+    clave = {}
+    encriptado = ''
+    caracteres_unicos = set()
+    
+    for letra in mensaje:
+      caracteres_unicos.add(letra)
+    
+    if len(caracteres_unicos)>26:
+      print('Error:el mensaje supera la cantidad de caracteres unicos')
+      return '', ''
+    
+    for x in caracteres_unicos:
+      clave[x] = alfabeto[y]
+      y = y+1
+    
+    for j in mensaje:
+      if j in clave:
+        encriptado = encriptado + clave.get(j)
+    
+    
+    # ACÁ TERMINA LA FUNCIÓN ENCRIPTADOR
+    # NO MODIFIQUES LA SIGUIENTE LÍNEA
+    return encriptado, clave
+
+    
+def desencriptador(encriptado, clave):
+    # ACÁ INICIA LA FUNCIÓN DESENCRIPTADOR 
+    # (En este espacio debes poner el código necesario para desencriptar)
+    
+    desencriptado = ""
+    clave_encriptacion_invertida = {}
+    
+    for q in clave:
+      clave_encriptacion_invertida[clave[q]]=q    
+    
+    for l in encriptado:
+      if l in clave_encriptacion_invertida:
+        desencriptado = desencriptado + clave_encriptacion_invertida.get(l)
+    
+    # ACÁ TERMINA LA FUNCIÓN DESENCRIPTADOR
+    # NO MODIFIQUES LA SIGUIENTE LÍNEA
+    return desencriptado
