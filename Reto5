@@ -1,0 +1,91 @@
+#NO ELIMINAR LAS SIGUIENTES IMPORTACIONES, sirven para el funcionamiento de las librería csv y json respectivamente
+import csv, json
+"""NOTAS: 
+    - PARA ESTE RETO PUEDES PROBAR TU PROGRAMA, DANDO CLICK EN LA NAVE ESPACIAL
+"""
+
+"""Inicio espacio para programar funciones propias"""
+#En este espacio podrás programar las funciones que deseas usar en la función solución (ES OPCIONAL)
+
+
+def solucion():
+
+    cabecera = []
+    Date = []
+    Open = []
+    High = []
+    Low = []
+    Close = []
+    Adj_Close = []
+    Volume = []
+
+    with open('GLOBANT.csv', 'r') as archivo:
+        x = csv.reader(archivo)
+
+        cabecera = next(x)
+
+        for i in x:
+            Date.append(i[0])
+            Open.append(float(i[1]))
+            High.append(float(i[2]))
+            Low.append(float(i[3]))
+            Close.append(float(i[4]))
+            Adj_Close.append(float(i[5]))
+            Volume.append(int(i[6]))
+
+        archivo.close()
+      
+        n = len(Date)
+        alza = []
+        punto_medio = []
+      
+        for i in range(n):
+            resta=Close[i]-Open[i]
+            punto_medio.append(float((High[i]-Low[i])/2))
+            if resta>0:
+                alza.append(str('SUBE'))
+            elif resta<0:
+                alza.append(str('BAJA'))
+            elif resta==0:
+                alza.append(str('ESTABLE'))
+          
+              
+      #Creación de archivo CSV
+        with open('analisis_archivo.csv','w') as file:
+            file.write('Fecha\tComportamiento de la accion\tPunto medio HIGH-LOW\n')
+            for i in range(n):
+                file.write('%s\t' % Date[i])
+                file.write('%s\t' % alza[i])
+                file.write('%s\t\n' % punto_medio[i])
+            file.close()
+      
+        dic={}
+        lowest = min(Low)
+        highest = max(High)
+        suma_sube = alza.count('SUBE')
+        suma_baja = alza.count('BAJA')
+        suma_estable = 0
+        suma_estable = alza.count('ESTABLE')
+    
+        dic['cantidad_veces_estable']=suma_estable
+      
+        for i in range(n):
+            if Low[i]==lowest:
+                dic['date_lowest_price']=Date[i]
+                dic['lowest_price']=lowest
+            if High[i]==highest:
+                dic['date_highest_price']=Date[i]
+                dic['highest_price']=highest
+            if alza[i]==('SUBE'):
+                dic['cantidad_veces_sube']=suma_sube
+            if alza[i]==('BAJA'):
+                dic['cantidad_veces_baja']=suma_baja
+            if alza[i]==('ESTABLE'):
+                dic['cantidad_veces_estable']=suma_estable
+          
+        with open('detalles.json','w') as file:
+            json.dump(dic,file)
+        
+        
+        
+        
