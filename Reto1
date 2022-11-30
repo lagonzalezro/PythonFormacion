@@ -1,0 +1,19 @@
+def solucion(b,n):
+
+    numero_ingresado = 0
+    x = 0
+    
+    while n != numero_ingresado:
+        numero_ingresado = eval(input("Ingrese numero:  "))
+    
+        if numero_ingresado >= 0 and numero_ingresado <= b and numero_ingresado > n:
+          print("¡Ups! Te pasaste")
+          x += 1
+        elif numero_ingresado >= 0 and numero_ingresado <= b and numero_ingresado < n: 
+          print("¡Ups! Estás por debajo")
+          x += 1
+        elif numero_ingresado == n:
+          x += 1
+          print(f"¡LO LOGRASTE! Usaste {x} intentos")
+        else:
+          print("¡Te saliste del intervalo!")
